@@ -1,7 +1,9 @@
-#include "board.h"
 #include <iostream>
+#include "board.h"
 
-int main() {
+int
+main ()
+{
   board b;
   return 0;
 }
