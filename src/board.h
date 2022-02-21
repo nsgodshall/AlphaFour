@@ -11,15 +11,17 @@ public:
 
   // Places a token in the requested column for the specified player. Returns
   // false if requested move is invalid
-  bool addToken(int col, bool firstPlayer);
+  bool addToken(int col);
 
 private:
-  uint64_t
-      m_position_bm; // 64-bit variable storing location of player 2's tokens
+  uint64_t m_position_bm; // 64-bit variable storing location of the current player's tokens
   uint64_t m_nonEmpty_bm; // 64-bit variable identifying non-empty cells
   uint64_t m_bottom_bm;   // 64-bit variable identifying bottom of board
   uint64_t m_key_bm;      // 64-bit variable that is sum of previous three and
                           // uniquely identifies gamestate
+  
+
+  int m_moves; // Keeps track of how many moves have been played
 
   // returns 1D index of gamestate bitmap given 2D coordinates (row 0, col 0)
   // identifies the bottom left location, returns -1 if an invalid coordinate is
@@ -28,6 +30,9 @@ private:
 
   // returns true if a token can be placed in a column
   bool validColumn(int col);
+
+  // return a bitmap with the bottom avaliable cell in the requested column
+  uint64_t getBottom_bm(int col); 
 };
 
 #endif // BOARD_INCLUDED

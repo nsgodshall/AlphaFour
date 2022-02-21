@@ -1,6 +1,6 @@
 #include "board.h"
 
-board::board() : m_nonEmpty_bm(0) {
+board::board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0) {
   // initialize the bottom bitmap by changing the every spot in the bottom row
   // to be 1
   for (int c = 0; c < NUM_COLS; c++) {
@@ -9,17 +9,22 @@ board::board() : m_nonEmpty_bm(0) {
                               // variable left shifted n places])
   }
 
-  // qDEBUGGING BELOW
-  validColumn(6);
+  m_key_bm = m_position_bm + m_nonEmpty_bm + m_bottom_bm;
+  
+  // DEBUGGING BELOW
+  visualizeBitmap(getBottom_bm(6));
   // DEBUGGING ABOVE
 }
 
 // TODO: Check if the requested column is full.
-bool board::addToken(int col, bool firstPlayer) {
-
-  // Check if requested column is a valid move
-  if (col < 0 || col >= NUM_COLS)
+bool board::addToken(int col) {
+  // first check to see if the requested move is valid
+  if (!validColumn(col))
     return false;
+
+  m_position_bm ^= m_nonEmpty_bm; 
+  m_nonEmpty_bm |= m_nonEmpty_bm + getBottom_bm(col);
+  m_moves++;
 
   return true;
 }
@@ -54,4 +59,8 @@ bool board::validColumn(int col) {
   // If it passes these tests, then a token may be placed in the requested
   // column
   return true;
+}
+
+uint64_t board::getBottom_bm(int col){
+  return (uint64_t(1) << bitmapDirectory(0, col));
 }
