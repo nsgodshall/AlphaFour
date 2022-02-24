@@ -12,13 +12,16 @@ board::board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0) {
   m_key_bm = m_position_bm + m_nonEmpty_bm + m_bottom_bm;
   
   // DEBUGGING BELOW
-  visualizeBitmap(getBottom_bm(6));
+  visualizeBitmap(m_nonEmpty_bm);
+
   // DEBUGGING ABOVE
 }
 
 // TODO: Check if the requested column is full.
 bool board::addToken(int col) {
   // first check to see if the requested move is valid
+  std::cout << "Valid col: " << validColumn(col) << std::endl;
+
   if (!validColumn(col))
     return false;
 
@@ -26,6 +29,7 @@ bool board::addToken(int col) {
   m_nonEmpty_bm |= m_nonEmpty_bm + getBottom_bm(col);
   m_moves++;
 
+  visualizeBitmap(m_nonEmpty_bm);
   return true;
 }
 
@@ -48,17 +52,18 @@ bool board::validColumn(int col) {
   if (col < 0 || col >= NUM_COLS)
     return false;
 
-  // Create a bitmap where the toprow in column col is '1'
-  uint64_t top_bm = (uint64_t(1) << (bitmapDirectory(NUM_ROWS - 1, col)));
-
   // AND the new top row bitmap with the non empty bitmap to see if the
-  // requested column has an empty space avaliable
-  if (((top_bm & m_nonEmpty_bm) >> bitmapDirectory(NUM_ROWS - 1, col)) == 0)
+  // requested column has an empty space avaliable. If they are both 1 then that column is full 
+  if (((getTop_bm(col) & m_nonEmpty_bm) >> bitmapDirectory(NUM_ROWS - 1, col)) != 0)
     return false;
 
   // If it passes these tests, then a token may be placed in the requested
   // column
   return true;
+}
+
+uint64_t board::getTop_bm(int col){
+  return (uint64_t(1) << bitmapDirectory(NUM_ROWS - 1, col));
 }
 
 uint64_t board::getBottom_bm(int col){

@@ -31,6 +31,9 @@ private:
   // returns true if a token can be placed in a column
   bool validColumn(int col);
 
+  // return a bitmap with a 1 in the top row of the requested column
+  uint64_t getTop_bm(int col);
+  
   // return a bitmap with the bottom avaliable cell in the requested column
   uint64_t getBottom_bm(int col); 
 };
