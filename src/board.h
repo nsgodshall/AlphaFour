@@ -13,6 +13,12 @@ public:
   // false if requested move is invalid
   bool addToken(int col);
 
+  // Print a human readable version of the board
+  void displayHumanReadable();
+
+  // Return TRUE if it is the first player's turn
+  bool firstPlayerToMove();
+
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current player's tokens
   uint64_t m_nonEmpty_bm; // 64-bit variable identifying non-empty cells

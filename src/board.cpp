@@ -15,11 +15,50 @@ board::board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0) {
   // DEBUGGING ABOVE
 }
 
-// TODO: Check if the requested column is full.
+void board::displayHumanReadable(){
+  int gridLoc(0);
+  char gameToken, oppToken;
+
+  if(firstPlayerToMove()){
+    gameToken = 'X';
+    oppToken = 'O';
+  }
+  else{
+    gameToken = 'O';
+    oppToken = 'X';
+  }
+
+  visualizeBitmap(m_nonEmpty_bm);
+
+  std::cout << "+-+-+-+-+-+-+-+" << std:: endl;
+  for (int i = NUM_ROWS-1; i >= 0; i--){
+    for (int j = 0; j < NUM_COLS; j++){
+      gridLoc = bitmapDirectory(i, j);
+      std::cout << "|";
+      if (!getBit(m_nonEmpty_bm, gridLoc))
+        std::cout << " ";
+      else if (getBit(m_position_bm, gridLoc))
+        std::cout << gameToken;
+      else 
+        std::cout << oppToken;
+    }
+    std::cout << "|" << std::endl;
+    std::cout << "+-+-+-+-+-+-+-+" << std:: endl;
+  }
+  if (checkIfWinner())
+    std::cout << "someone won" << std::endl;
+  else
+    std::cout << "there is no winner" << std::endl;
+}
+
+bool board::firstPlayerToMove(){
+  if (m_moves % 2 == 0)
+    return true;
+  return false;
+}
+
 bool board::addToken(int col) {
   // first check to see if the requested move is valid
-  std::cout << "Valid col: " << validColumn(col) << std::endl;
-
   if (!validColumn(col))
     return false;
 
@@ -30,8 +69,6 @@ bool board::addToken(int col) {
   m_moves++;
 
   // DEBUGGING BELOW
-  visualizeBitmap(m_nonEmpty_bm);
-  std::cout << "Is there a winner?: " << checkIfWinner() << std::endl;  
   // DEBUGGING ABOVE
 
   return true;
