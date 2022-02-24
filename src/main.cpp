@@ -1,23 +1,9 @@
 #include "board.h"
-#include <iostream>
+#include "globals.h"
 
 int main() {
   board b;
-  std::cout << "Added to col 0" << std::endl;
-  b.addToken(0);
-  std::cout << "Added to col 0" << std::endl;
-  b.addToken(1);  
-  std::cout << "Added to col 0" << std::endl;
-  b.addToken(1);
-  std::cout << "Added to col 0" << std::endl;
-  b.addToken(1);  
-  std::cout << "Added to col 0" << std::endl;
-  b.addToken(1);
-  std::cout << "Added to col 0" << std::endl;
-  b.addToken(1);  
-  std::cout << "Added to col 0" << std::endl;
-  b.addToken(1);
-  std::cout << "Added to col 0" << std::endl;
-  b.addToken(1);  
+  std::string game1 = "1234";
+  playFromGameString(&game1, &b);
   return 0;
 }

@@ -15,3 +15,11 @@ void visualizeBitmap(uint64_t bm) {
   }
   std::cout << std::endl;
 }
+
+void playFromGameString(std::string *gs, board *b){
+  for (int i=0; i < gs->length(); i++){
+    int col = int(gs->at(i) - '0');
+    b->addToken(col);
+  }
+  return;
+}

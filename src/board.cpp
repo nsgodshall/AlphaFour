@@ -12,8 +12,6 @@ board::board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0) {
   m_key_bm = m_position_bm + m_nonEmpty_bm + m_bottom_bm;
   
   // DEBUGGING BELOW
-  visualizeBitmap(m_nonEmpty_bm);
-
   // DEBUGGING ABOVE
 }
 
@@ -25,11 +23,17 @@ bool board::addToken(int col) {
   if (!validColumn(col))
     return false;
 
+  // OR to player position with the non empty tokens to change player
   m_position_bm ^= m_nonEmpty_bm; 
+  // update game state
   m_nonEmpty_bm |= m_nonEmpty_bm + getBottom_bm(col);
   m_moves++;
 
+  // DEBUGGING BELOW
   visualizeBitmap(m_nonEmpty_bm);
+  std::cout << "Is there a winner?: " << checkIfWinner() << std::endl;  
+  // DEBUGGING ABOVE
+
   return true;
 }
 
@@ -68,4 +72,29 @@ uint64_t board::getTop_bm(int col){
 
 uint64_t board::getBottom_bm(int col){
   return (uint64_t(1) << bitmapDirectory(0, col));
+}
+
+bool board::checkIfWinner(){
+  // NGL this is just kinda magic to me -Nick
+  uint64_t m = m_position_bm & (m_position_bm >> (NUM_ROWS + 1));
+  // Horizontal
+  if (m & (m >> (2*(NUM_ROWS + 1))))
+    return true;
+  
+  // Diagonal 1
+  m = m_position_bm & (m_position_bm >> NUM_ROWS);
+  if (m & (m >> (2*NUM_ROWS)))
+    return true;
+
+  // Diagonal 2
+  m = m_position_bm & (m_position_bm >> NUM_ROWS+2);
+  if (m & (m >> (2*NUM_ROWS+2)))
+    return true;
+  
+  // Vertical
+  m = m_position_bm & (m_position_bm >> 1);
+  if (m & (m >> 2))
+    return true;
+  
+  return false;
 }
