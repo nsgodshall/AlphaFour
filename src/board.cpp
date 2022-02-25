@@ -1,6 +1,6 @@
 #include "board.h"
 
-board::board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0) {
+board::board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(-1) {
   // initialize the bottom bitmap by changing the every spot in the bottom row
   // to be 1
   for (int c = 0; c < NUM_COLS; c++) {
@@ -28,9 +28,9 @@ void board::displayHumanReadable(){
     oppToken = 'X';
   }
 
-  visualizeBitmap(m_nonEmpty_bm);
-
+  // top row
   std::cout << "+-+-+-+-+-+-+-+" << std:: endl;
+  
   for (int i = NUM_ROWS-1; i >= 0; i--){
     for (int j = 0; j < NUM_COLS; j++){
       gridLoc = bitmapDirectory(i, j);
@@ -45,10 +45,6 @@ void board::displayHumanReadable(){
     std::cout << "|" << std::endl;
     std::cout << "+-+-+-+-+-+-+-+" << std:: endl;
   }
-  if (checkIfWinner())
-    std::cout << "someone won" << std::endl;
-  else
-    std::cout << "there is no winner" << std::endl;
 }
 
 bool board::firstPlayerToMove(){
@@ -66,6 +62,7 @@ bool board::addToken(int col) {
   m_position_bm ^= m_nonEmpty_bm; 
   // update game state
   m_nonEmpty_bm |= m_nonEmpty_bm + getBottom_bm(col);
+  checkIfWinner();
   m_moves++;
 
   // DEBUGGING BELOW
@@ -111,27 +108,42 @@ uint64_t board::getBottom_bm(int col){
   return (uint64_t(1) << bitmapDirectory(0, col));
 }
 
-bool board::checkIfWinner(){
+void board::checkIfWinner(){
   // NGL this is just kinda magic to me -Nick
+  
+  // declare variable to store the potential winner, this is the player who played last, i.e. NOT the player who is to play
+  int potWinner(0);
+  if (firstPlayerToMove())
+    potWinner = 1;
+
   uint64_t m = m_position_bm & (m_position_bm >> (NUM_ROWS + 1));
+
   // Horizontal
-  if (m & (m >> (2*(NUM_ROWS + 1))))
-    return true;
+  if (m & (m >> (2*(NUM_ROWS + 1)))){
+    m_winner = potWinner;
+    return;
+  }
   
   // Diagonal 1
   m = m_position_bm & (m_position_bm >> NUM_ROWS);
-  if (m & (m >> (2*NUM_ROWS)))
-    return true;
+  if (m & (m >> (2*NUM_ROWS))){
+    m_winner = potWinner;
+    return;
+  }
 
   // Diagonal 2
   m = m_position_bm & (m_position_bm >> NUM_ROWS+2);
-  if (m & (m >> (2*NUM_ROWS+2)))
-    return true;
+  if (m & (m >> (2*NUM_ROWS+2))){
+    m_winner = potWinner;
+    return;
+  }
   
   // Vertical
   m = m_position_bm & (m_position_bm >> 1);
-  if (m & (m >> 2))
-    return true;
+  if (m & (m >> 2)){
+    m_winner = potWinner;
+    return;
+  }
   
-  return false;
+  return;
 }

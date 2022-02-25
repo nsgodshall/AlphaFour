@@ -24,6 +24,17 @@ void playFromGameString(std::string *gs, board *b, bool verbose){
     b->addToken(col);
     if (verbose)
       b->displayHumanReadable();
+    switch  (b->getWinner()){
+      case -1:
+        std::cout << "There is no winner" << std::endl;
+        break;
+      case 0: 
+        std::cout << "Player X has won" << std::endl;
+        break;
+      case 1: 
+        std::cout << "Player O has won" << std::endl;
+        break;
+    }
   }
 
   return;

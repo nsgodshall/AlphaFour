@@ -3,8 +3,9 @@
 
 int main() {
   board b;
-  std::string game1 = "12233434454";
+  std::string game1 = "12233434450";
   playFromGameString(&game1, &b, 1);
+  
     // b.addToken(1);
     // b.displayHumanReadable();
   return 0;
