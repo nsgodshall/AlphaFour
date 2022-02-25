@@ -3,7 +3,6 @@
 
 #include <stdint.h> // for declaring uint64_t
 
-#include "globals.h"
 
 class board {
 public:
@@ -47,7 +46,7 @@ private:
   uint64_t getBottom_bm(int col); 
 
   // mutate the state of the m_winner 
-  void checkIfWinner();
+  void checkIfWinner(uint64_t pos);
 };
 
 #endif // BOARD_INCLUDED

@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "board.h"
 
 void visualizeBitmap(uint64_t bm) {
   for (int r = NUM_ROWS; r >= 0; r--) {
@@ -35,6 +36,7 @@ void playFromGameString(std::string *gs, board *b, bool verbose){
         std::cout << "Player O has won" << std::endl;
         break;
     }
+    std::cout << std::endl;
   }
 
   return;

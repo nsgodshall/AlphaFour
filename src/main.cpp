@@ -1,12 +1,9 @@
 #include "board.h"
 #include "globals.h"
+#include "game.h"
 
 int main() {
-  board b;
-  std::string game1 = "12233434450";
-  playFromGameString(&game1, &b, 1);
-  
-    // b.addToken(1);
-    // b.displayHumanReadable();
+  game g; 
+  g.playGame();
   return 0;
 }

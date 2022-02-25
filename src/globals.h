@@ -4,8 +4,6 @@
 #include <string>
 #include <iostream>
 
-#include "board.h"
-
 class board;
 
 const int NUM_ROWS = 6; // Number of rows in game
