@@ -1,6 +1,6 @@
-#include "board.h"
+#include "Board.h"
 #include "globals.h"
-#include "game.h"
+#include "Game.h"
 
 int main() {
   game g; 

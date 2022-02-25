@@ -1,5 +1,5 @@
 #include "globals.h"
-#include "board.h"
+#include "Board.h"
 
 void visualizeBitmap(uint64_t bm) {
   for (int r = NUM_ROWS; r >= 0; r--) {
@@ -17,7 +17,7 @@ void visualizeBitmap(uint64_t bm) {
   std::cout << std::endl;
 }
 
-void playFromGameString(std::string *gs, board *b, bool verbose){
+void playFromGameString(std::string *gs, Board *b, bool verbose){
   // Attempt to place a token for each number in the gamestring
   for (int i=0; i < gs->length(); i++){
     // the specific char must be cast to a int literal 

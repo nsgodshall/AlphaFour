@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "game.h"
-#include "board.h"
+#include "Game.h"
+#include "Board.h"
 
 void game::playGame(){
-    board b; 
+    Board b; 
 
     int col(-1);
 

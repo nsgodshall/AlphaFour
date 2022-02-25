@@ -4,18 +4,18 @@
 #include <stdint.h> // for declaring uint64_t
 
 
-class board {
+class Board {
 public:
-  board();
+  Board();
 
   // Places a token in the requested column for the specified player. Returns
   // false if requested move is invalid
   bool addToken(int col);
 
-  // Print a human readable version of the board
+  // Print a human readable version of the Board
   void displayHumanReadable();
 
-  // Return TRUE if it is the first player's turn
+  // Return TRUE if it is the first player's turn   
   bool firstPlayerToMove();
 
   // Return -1 if there is no winner, 0 if the first player won, 1 if the second player won. 
@@ -24,7 +24,7 @@ public:
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current player's tokens
   uint64_t m_nonEmpty_bm; // 64-bit variable identifying non-empty cells
-  uint64_t m_bottom_bm;   // 64-bit variable identifying bottom of board
+  uint64_t m_bottom_bm;   // 64-bit variable identifying bottom of Board
   uint64_t m_key_bm;      // 64-bit variable that is sum of previous three and
                           // uniquely identifies gamestate
   int m_winner;

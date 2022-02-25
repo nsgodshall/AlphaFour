@@ -1,7 +1,7 @@
-#include "board.h"
+#include "Board.h"
 #include "globals.h"
 
-board::board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(-1) {
+Board::Board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(-1) {
   // initialize the bottom bitmap by changing the every spot in the bottom row
   // to be 1
   for (int c = 0; c < NUM_COLS; c++) {
@@ -16,7 +16,7 @@ board::board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(-1) {
   // DEBUGGING ABOVE
 }
 
-void board::displayHumanReadable(){
+void Board::displayHumanReadable(){
   int gridLoc(0);
   char gameToken, oppToken;
 
@@ -50,13 +50,13 @@ void board::displayHumanReadable(){
 
 }
 
-bool board::firstPlayerToMove(){
+bool Board::firstPlayerToMove(){
   if (m_moves % 2 == 0)
     return true;
   return false;
 }
 
-bool board::addToken(int col) {
+bool Board::addToken(int col) {
   // first check to see if the requested move is valid
   if (!validColumn(col))
     return false;
@@ -75,7 +75,7 @@ bool board::addToken(int col) {
   return true;
 }
 
-int board::bitmapDirectory(int row, int col) {
+int Board::bitmapDirectory(int row, int col) {
   // ensure row index is valid
   if (row < 0 || row >= NUM_ROWS + 1)
     return -1;
@@ -89,8 +89,8 @@ int board::bitmapDirectory(int row, int col) {
     return col * (NUM_ROWS + 1) + row;
 }
 
-bool board::validColumn(int col) {
-  // make sure that the board is not full
+bool Board::validColumn(int col) {
+  // make sure that the Board is not full
   if (m_moves >= NUM_ROWS*NUM_COLS)
     return false;
 
@@ -112,15 +112,15 @@ bool board::validColumn(int col) {
   return true;
 }
 
-uint64_t board::getTop_bm(int col){
+uint64_t Board::getTop_bm(int col){
   return (uint64_t(1) << bitmapDirectory(NUM_ROWS - 1, col));
 }
 
-uint64_t board::getBottom_bm(int col){
+uint64_t Board::getBottom_bm(int col){
   return (uint64_t(1) << bitmapDirectory(0, col));
 }
 
-void board::checkIfWinner(uint64_t pos){
+void Board::checkIfWinner(uint64_t pos){
   // NGL this is just kinda magic to me -Nick
   
   // declare variable to store the potential winner, this is the player who played last, i.e. NOT the player who is to play
