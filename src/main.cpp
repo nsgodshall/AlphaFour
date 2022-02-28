@@ -1,9 +1,9 @@
 #include "Board.h"
-#include "globals.h"
 #include "Game.h"
+#include "globals.h"
 
 int main() {
-  game g; 
+  game g;
   g.playGame();
   return 0;
 }

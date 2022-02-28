@@ -11,46 +11,44 @@ Board::Board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(-1) {
   }
 
   m_key_bm = m_position_bm + m_nonEmpty_bm + m_bottom_bm;
-  
+
   // DEBUGGING BELOW
   // DEBUGGING ABOVE
 }
 
-void Board::displayHumanReadable(){
+void Board::displayHumanReadable() {
   int gridLoc(0);
   char gameToken, oppToken;
 
-  if(firstPlayerToMove()){
+  if (firstPlayerToMove()) {
     gameToken = 'X';
     oppToken = 'O';
-  }
-  else{
+  } else {
     gameToken = 'O';
     oppToken = 'X';
   }
 
   // top row
-  std::cout << "+-+-+-+-+-+-+-+" << std:: endl;
+  std::cout << "+-+-+-+-+-+-+-+" << std::endl;
 
-  for (int i = NUM_ROWS-1; i >= 0; i--){
-    for (int j = 0; j < NUM_COLS; j++){
+  for (int i = NUM_ROWS - 1; i >= 0; i--) {
+    for (int j = 0; j < NUM_COLS; j++) {
       gridLoc = bitmapDirectory(i, j);
       std::cout << "|";
       if (!getBit(m_nonEmpty_bm, gridLoc))
         std::cout << " ";
       else if (getBit(m_position_bm, gridLoc))
         std::cout << gameToken;
-      else 
+      else
         std::cout << oppToken;
     }
     std::cout << "|" << std::endl;
     std::cout << "+-+-+-+-+-+-+-+" << std::endl;
   }
   std::cout << " 1 2 3 4 5 6 7" << std::endl;
-
 }
 
-bool Board::firstPlayerToMove(){
+bool Board::firstPlayerToMove() {
   if (m_moves % 2 == 0)
     return true;
   return false;
@@ -62,12 +60,11 @@ bool Board::addToken(int col) {
     return false;
 
   // OR to player position with the non empty tokens to change player
-  m_position_bm ^= m_nonEmpty_bm; 
+  m_position_bm ^= m_nonEmpty_bm;
   // update game state
   m_nonEmpty_bm |= m_nonEmpty_bm + getBottom_bm(col);
   m_moves++;
   checkIfWinner(m_position_bm ^ m_nonEmpty_bm);
-
 
   // DEBUGGING BELOW
   // DEBUGGING ABOVE
@@ -91,7 +88,7 @@ int Board::bitmapDirectory(int row, int col) {
 
 bool Board::validColumn(int col) {
   // make sure that the Board is not full
-  if (m_moves >= NUM_ROWS*NUM_COLS)
+  if (m_moves >= NUM_ROWS * NUM_COLS)
     return false;
 
   // make sure that there is no winner
@@ -103,8 +100,10 @@ bool Board::validColumn(int col) {
     return false;
 
   // AND the new top row bitmap with the non empty bitmap to see if the
-  // requested column has an empty space avaliable. If they are both 1 then that column is full 
-  if (((getTop_bm(col) & m_nonEmpty_bm) >> bitmapDirectory(NUM_ROWS - 1, col)) != 0)
+  // requested column has an empty space avaliable. If they are both 1 then that
+  // column is full
+  if (((getTop_bm(col) & m_nonEmpty_bm) >>
+       bitmapDirectory(NUM_ROWS - 1, col)) != 0)
     return false;
 
   // If it passes these tests, then a token may be placed in the requested
@@ -112,18 +111,19 @@ bool Board::validColumn(int col) {
   return true;
 }
 
-uint64_t Board::getTop_bm(int col){
+uint64_t Board::getTop_bm(int col) {
   return (uint64_t(1) << bitmapDirectory(NUM_ROWS - 1, col));
 }
 
-uint64_t Board::getBottom_bm(int col){
+uint64_t Board::getBottom_bm(int col) {
   return (uint64_t(1) << bitmapDirectory(0, col));
 }
 
-void Board::checkIfWinner(uint64_t pos){
+void Board::checkIfWinner(uint64_t pos) {
   // NGL this is just kinda magic to me -Nick
-  
-  // declare variable to store the potential winner, this is the player who played last, i.e. NOT the player who is to play
+
+  // declare variable to store the potential winner, this is the player who
+  // played last, i.e. NOT the player who is to play
   int potWinner(0);
   if (firstPlayerToMove())
     potWinner = 1;
@@ -131,28 +131,28 @@ void Board::checkIfWinner(uint64_t pos){
   uint64_t m = pos & (pos >> (NUM_ROWS + 1));
 
   // Horizontal
-  if (m & (m >> (2*(NUM_ROWS + 1)))){
+  if (m & (m >> (2 * (NUM_ROWS + 1)))) {
     m_winner = potWinner;
     return;
   }
-  
+
   // Diagonal 1
   m = pos & (pos >> NUM_ROWS);
-  if (m & (m >> (2*NUM_ROWS))){
+  if (m & (m >> (2 * NUM_ROWS))) {
     m_winner = potWinner;
     return;
   }
 
   // Diagonal 2
-  m = pos & (pos >> (NUM_ROWS+2));
-  if (m & (m >> (2*(NUM_ROWS+2)))){
+  m = pos & (pos >> (NUM_ROWS + 2));
+  if (m & (m >> (2 * (NUM_ROWS + 2)))) {
     m_winner = potWinner;
     return;
   }
-  
+
   // Vertical
   m = pos & (pos >> 1);
-  if (m & (m >> 2)){
+  if (m & (m >> 2)) {
     m_winner = potWinner;
     return;
   }

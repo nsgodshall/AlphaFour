@@ -17,24 +17,24 @@ void visualizeBitmap(uint64_t bm) {
   std::cout << std::endl;
 }
 
-void playFromGameString(std::string *gs, Board *b, bool verbose){
+void playFromGameString(std::string *gs, Board *b, bool verbose) {
   // Attempt to place a token for each number in the gamestring
-  for (int i=0; i < gs->length(); i++){
-    // the specific char must be cast to a int literal 
+  for (int i = 0; i < gs->length(); i++) {
+    // the specific char must be cast to a int literal
     int col = int(gs->at(i) - '0');
     b->addToken(col);
     if (verbose)
       b->displayHumanReadable();
-    switch  (b->getWinner()){
-      case -1:
-        std::cout << "There is no winner" << std::endl;
-        break;
-      case 0: 
-        std::cout << "Player X has won" << std::endl;
-        break;
-      case 1: 
-        std::cout << "Player O has won" << std::endl;
-        break;
+    switch (b->getWinner()) {
+    case -1:
+      std::cout << "There is no winner" << std::endl;
+      break;
+    case 0:
+      std::cout << "Player X has won" << std::endl;
+      break;
+    case 1:
+      std::cout << "Player O has won" << std::endl;
+      break;
     }
     std::cout << std::endl;
   }
@@ -42,6 +42,4 @@ void playFromGameString(std::string *gs, Board *b, bool verbose){
   return;
 }
 
-bool getBit(uint64_t bm, int n){
-  return ( (bm >> n) & 1);
-}
+bool getBit(uint64_t bm, int n) { return ((bm >> n) & 1); }
