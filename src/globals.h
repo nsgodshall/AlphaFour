@@ -1,8 +1,8 @@
 #ifndef GLOBALS_INCLUDED
 #define GLOBALS_INCLUDED
 
-#include <string>
 #include <iostream>
+#include <string>
 
 class Board;
 

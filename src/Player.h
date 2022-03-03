@@ -3,19 +3,18 @@
 
 class Board;
 
-class Player{
-    public:
-        bool m_firstPlayer;
+class Player {
+public:
+  bool m_firstPlayer;
 
-        Player();
-        inline bool isFirstPlayer() const {return m_firstPlayer;}
-        void setAsFirstPlayer();
+  Player();
+  inline bool isFirstPlayer() const { return m_firstPlayer; }
+  void setAsFirstPlayer();
 };
 
 class HumanPlayer : public Player {
-    public:
-        HumanPlayer();
-
+public:
+  HumanPlayer();
 };
 
 #endif // PLAYER_INCLUDED

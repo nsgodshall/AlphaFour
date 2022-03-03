@@ -3,7 +3,6 @@
 
 #include <stdint.h> // for declaring uint64_t
 
-
 class Board {
 public:
   Board();
@@ -15,14 +14,16 @@ public:
   // Print a human readable version of the Board
   void displayHumanReadable();
 
-  // Return TRUE if it is the first player's turn   
+  // Return TRUE if it is the first player's turn
   bool firstPlayerToMove();
 
-  // Return -1 if there is no winner, 0 if the first player won, 1 if the second player won. 
-  inline int getWinner() {return  m_winner;}
+  // Return -1 if there is no winner, 0 if the first player won, 1 if the second
+  // player won.
+  inline int getWinner() { return m_winner; }
 
 private:
-  uint64_t m_position_bm; // 64-bit variable storing location of the current player's tokens
+  uint64_t m_position_bm; // 64-bit variable storing location of the current
+                          // player's tokens
   uint64_t m_nonEmpty_bm; // 64-bit variable identifying non-empty cells
   uint64_t m_bottom_bm;   // 64-bit variable identifying bottom of Board
   uint64_t m_key_bm;      // 64-bit variable that is sum of previous three and
@@ -43,9 +44,9 @@ private:
   uint64_t getTop_bm(int col);
 
   // return a bitmap with the bottom avaliable cell in the requested column
-  uint64_t getBottom_bm(int col); 
+  uint64_t getBottom_bm(int col);
 
-  // mutate the state of the m_winner 
+  // mutate the state of the m_winner
   void checkIfWinner(uint64_t pos);
 };
 

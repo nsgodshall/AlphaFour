@@ -1,16 +1,11 @@
 #include "Player.h"
 #include "Board.h"
 
-Player::Player()
-:m_firstPlayer(false)
-{}
+Player::Player() : m_firstPlayer(false) {}
 
-void Player::setAsFirstPlayer(){
-    m_firstPlayer = true;
-    return;
+void Player::setAsFirstPlayer() {
+  m_firstPlayer = true;
+  return;
 }
 
-HumanPlayer::HumanPlayer()
-:Player()
-{}
-
+HumanPlayer::HumanPlayer() : Player() {}

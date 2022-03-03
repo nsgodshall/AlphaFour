@@ -4,16 +4,16 @@
 class Board;
 class Player;
 
-class Game{
+class Game {
 public:
-    Game(Board *b, Player *p1, Player *p2);
-    void playGame();
+  Game(Board *b, Player *p1, Player *p2);
+  void playGame();
 
 private:
-    Board *m_b;
-    Player *m_p1, *m_p2;
+  Board *m_b;
+  Player *m_p1, *m_p2;
 
-    void interactiveMove(Player *p);
+  void interactiveMove(Player *p);
 };
 
-#endif //GAME_INCLUDED
+#endif // GAME_INCLUDED
