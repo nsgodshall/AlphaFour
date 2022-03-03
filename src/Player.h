@@ -3,16 +3,18 @@
 
 class Board;
 
-class Player(){
-    public: 
+class Player{
+    public:
+        Player(Board *b);
         virtual bool isInteractive() const { return false; }
-        virtual int chooseMove(Board &b);
+    private:
+        Board *m_board = nullptr;
 };
 
 class HumanPlayer : public Player {
     public:
-        virtual bool isInteractive() const { return true; }
-        
+        HumanPlayer(Board *b);
+        virtual bool isInteractive() const { return true; } 
 };
 
 #endif // PLAYER_INCLUDED
