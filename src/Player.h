@@ -5,16 +5,17 @@ class Board;
 
 class Player{
     public:
-        Player(Board *b);
-        virtual bool isInteractive() const { return false; }
-    private:
-        Board *m_board = nullptr;
+        bool m_firstPlayer;
+
+        Player();
+        inline bool isFirstPlayer() const {return m_firstPlayer;}
+        void setAsFirstPlayer();
 };
 
 class HumanPlayer : public Player {
     public:
-        HumanPlayer(Board *b);
-        virtual bool isInteractive() const { return true; } 
+        HumanPlayer();
+
 };
 
 #endif // PLAYER_INCLUDED

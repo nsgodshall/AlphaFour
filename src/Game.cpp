@@ -1,33 +1,40 @@
 #include <iostream>
 
 #include "Board.h"
+#include "Player.h"
 #include "Game.h"
 
-void game::playGame() {
-  Board b;
+Game::Game(Board *b, Player *p1, Player *p2)
+: m_b(b), m_p1(p1), m_p2(p2)
+{
+  m_p1->setAsFirstPlayer();
+}
 
-  int col(-1);
+void Game::playGame(){
+  std::cout << "Beginning of Game";
 
-  std::cout << "NEW GAME" << std::endl;
-  b.displayHumanReadable();
-  while (b.getWinner() == -1) {
-    std::cout << "Player X, which column? (1-7) ";
-    std::cin >> col;
-    b.addToken(col - 1);
-    std::cout << std::endl;
-    b.displayHumanReadable();
-    if (b.getWinner() != -1)
+  while(m_b->getWinner() == -1){
+    interactiveMove(m_p1);
+    if (m_b->getWinner() != -1)
       break;
-    std::cout << "Player O, which column? (1-7) ";
-    std::cin >> col;
-    b.addToken(col - 1);
-    std::cout << std::endl;
-    b.displayHumanReadable();
-    if (b.getWinner() != -1)
-      break;
+    interactiveMove(m_p2);
+    
   }
-  if (b.getWinner() == 0)
-    std::cout << "Player X Wins!" << std::endl;
-  else
-    std::cout << "player O Wins!" << std::endl;
+}
+
+void Game::interactiveMove(Player* p){
+    m_b->displayHumanReadable();
+
+    int colToPlay;
+    if (p->isFirstPlayer())
+      std::cout << "Player 1 (1-7): ";
+    else
+      std::cout << "Player 2 (1-7): ";
+    std::cin >> colToPlay;
+
+    while (!(m_b->addToken(colToPlay - 1))){
+      std::cout << "Invalid move! Choose col (1-7): ";
+      std::cin >> colToPlay;
+    }
+  
 }

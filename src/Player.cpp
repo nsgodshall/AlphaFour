@@ -1,10 +1,16 @@
 #include "Player.h"
 #include "Board.h"
 
-Player::Player(Board *b)
-: m_board(b)
+Player::Player()
+:m_firstPlayer(false)
 {}
 
-HumanPlayer::HumanPlayer(Board *b)
-: Player(b)
+void Player::setAsFirstPlayer(){
+    m_firstPlayer = true;
+    return;
+}
+
+HumanPlayer::HumanPlayer()
+:Player()
 {}
+

@@ -5,5 +5,8 @@
 
 int main() {
   Board b;
-  HumanPlayer p(&b);
+  HumanPlayer p1;
+  HumanPlayer p2;
+  Game g(&b, &p1, &p2);
+  g.playGame();
 }
