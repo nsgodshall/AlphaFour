@@ -5,7 +5,10 @@
 
 int main() {
   Board b;
-  std::string gs = "33";
-  playFromGameString(&gs, &b, true); 
-  b.removeToken(2);
+  HumanPlayer hp;
+  RoboPlayer rp;
+
+  Game g(&b, &hp, &rp);
+
+  g.playGame();
 }

@@ -49,7 +49,7 @@ void Board::displayHumanReadable() {
 }
 
 bool Board::firstPlayerToMove() {
-  if (m_moves % 2 == 0)
+  if (m_moves % 2 == 1)
     return true;
   return false;
 }
@@ -64,7 +64,7 @@ bool Board::addToken(int col) {
   m_nonEmpty_bm |= m_nonEmpty_bm + getBottom_bm(col);
   m_moves++;
   m_position_bm ^= m_nonEmpty_bm;
-  checkIfWinner(m_position_bm ^ m_nonEmpty_bm);
+  checkIfWinner(m_position_bm);
 
   return true;
 }

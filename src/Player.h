@@ -32,6 +32,7 @@ public:
 class RoboPlayer : public Player{
 public:
   RoboPlayer();
+  int getMove(Board* b);
 private: 
   int negaMax(int depth, Board *b);
 };

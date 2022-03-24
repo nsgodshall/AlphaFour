@@ -16,7 +16,7 @@ private:
   Board *m_b;
   Player *m_p1, *m_p2;
 
-  void interactiveMove(Player *p);
+  void promptForMove(Player *p);
 };
 
 #endif // GAME_INCLUDED

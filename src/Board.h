@@ -25,6 +25,10 @@ public:
   inline int getWinner() const { return m_winner; }
 
   inline int getNumMoves() const { return m_moves; }
+
+  // returns true if a token can be placed in a column
+  bool validColumn(int col);
+  
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current
                           // player's tokens
@@ -40,9 +44,6 @@ private:
   // identifies the bottom left location, returns -1 if an invalid coordinate is
   // given
   int bitmapDirectory(int row, int col);
-
-  // returns true if a token can be placed in a column
-  bool validColumn(int col);
 
   // return a bitmap with a 1 in the top row of the requested column
   uint64_t getTop_bm(int col);
