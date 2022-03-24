@@ -4,6 +4,10 @@
 #include <iostream>
 #include <string>
 
+// EXPERIMENTAL
+#include <unistd.h>
+// EXPERIMENTAL
+
 class Board;
 
 const int NUM_ROWS = 6; // Number of rows in game

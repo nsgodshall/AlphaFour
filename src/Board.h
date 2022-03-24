@@ -10,6 +10,9 @@ public:
   // Places a token in the requested column for the specified player. Returns
   // false if requested move is invalid
   bool addToken(int col);
+  
+  // Might not need this one
+  // bool removeToken(int col);
 
   // Print a human readable version of the Board
   void displayHumanReadable();
@@ -17,10 +20,11 @@ public:
   // Return TRUE if it is the first player's turn
   bool firstPlayerToMove();
 
-  // Return -1 if there is no winner, 0 if the first player won, 1 if the second
+  // Return 0 if there is no winner, -1 if the first player won, 1 if the second
   // player won.
-  inline int getWinner() { return m_winner; }
+  inline int getWinner() const { return m_winner; }
 
+  inline int getNumMoves() const { return m_moves; }
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current
                           // player's tokens

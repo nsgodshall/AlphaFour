@@ -23,13 +23,14 @@ void playFromGameString(std::string *gs, Board *b, bool verbose) {
     // the specific char must be cast to a int literal
     int col = int(gs->at(i) - '0');
     b->addToken(col);
-    if (verbose)
+    if (verbose){
       b->displayHumanReadable();
+    }
     switch (b->getWinner()) {
-    case -1:
+    case 0:
       std::cout << "There is no winner" << std::endl;
       break;
-    case 0:
+    case -1:
       std::cout << "Player X has won" << std::endl;
       break;
     case 1:

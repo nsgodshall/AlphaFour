@@ -1,7 +1,7 @@
 #include "Board.h"
 #include "globals.h"
 
-Board::Board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(-1) {
+Board::Board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(0) {
   // initialize the bottom bitmap by changing the every spot in the bottom row
   // to be 1
   for (int c = 0; c < NUM_COLS; c++) {
@@ -60,17 +60,26 @@ bool Board::addToken(int col) {
     return false;
 
   // OR to player position with the non empty tokens to change player
-  m_position_bm ^= m_nonEmpty_bm;
   // update game state
   m_nonEmpty_bm |= m_nonEmpty_bm + getBottom_bm(col);
   m_moves++;
+  m_position_bm ^= m_nonEmpty_bm;
   checkIfWinner(m_position_bm ^ m_nonEmpty_bm);
-
-  // DEBUGGING BELOW
-  // DEBUGGING ABOVE
 
   return true;
 }
+
+// bool Board::removeToken(int col){
+//   // We can only remove a token if a token has been placed
+//   if (m_moves == 0)
+//     return false;
+
+//   visualizeBitmap(m_nonEmpty_bm);  
+
+//   m_moves--;
+//   return true;
+
+// }
 
 int Board::bitmapDirectory(int row, int col) {
   // ensure row index is valid
@@ -92,7 +101,7 @@ bool Board::validColumn(int col) {
     return false;
 
   // make sure that there is no winner
-  if (m_winner != -1)
+  if (m_winner != 0)
     return false;
 
   // Check if column is in bounds
@@ -124,7 +133,7 @@ void Board::checkIfWinner(uint64_t pos) {
 
   // declare variable to store the potential winner, this is the player who
   // played last, i.e. NOT the player who is to play
-  int potWinner(0);
+  int potWinner(-1);
   if (firstPlayerToMove())
     potWinner = 1;
 

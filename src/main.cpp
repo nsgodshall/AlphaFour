@@ -5,8 +5,7 @@
 
 int main() {
   Board b;
-  HumanPlayer p1;
-  HumanPlayer p2;
-  Game g(&b, &p1, &p2);
-  g.playGame();
+  std::string gs = "33";
+  playFromGameString(&gs, &b, true); 
+  b.removeToken(2);
 }
