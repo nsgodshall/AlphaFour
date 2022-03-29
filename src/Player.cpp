@@ -57,24 +57,24 @@ int RoboPlayer::getMove(Board* b){
 
       b2->addToken(c);
 
-      int score = -negaMax(b2, 999, -999);
-
+      //int score = -negaMax(b2, 999, -999);
+      int score = miniMax(b2, false, -999, 999, 14);
       if (score > maxScore) {
-          maxScore = score;
-          maxCol = c;
+        maxScore = score;
+        maxCol = c;
       }
 
-      std::cout << "Col: " << c << ", score: " << score << " Is winning move: " << b->isWinningMove(c) <<std::endl;
+      std::cout << "Col: " << c << ", score: " << score <<std::endl;
       b2 = nullptr;
       delete b2;
     }
   }
-  std::cout << "I would play column " << maxCol << std::endl;
+  std::cout << "I would play column " << maxCol + 1<< std::endl;
 
-  // END DEBUG TIMER, report time
+  // END DEBUG TIMER, report time 
   auto stop = std::chrono::high_resolution_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-  std::cout << "DEPTH: " << d << " DURATION: " << duration.count() << " microseconds" << std::endl; 
+  std::cout << " DURATION: " << duration.count() << " microseconds" << std::endl; 
 
   return maxCol;
 }
@@ -137,12 +137,74 @@ int RoboPlayer::negaMax(Board *b, int alpha, int beta){
 
       if(score >= beta) 
         return score;  // prune the exploration if we find a possible move better than what we were looking for.
+      
       if(score > alpha) 
         alpha = score; // reduce the [alpha;beta] window for next exploration, as we only 
         // need to search for a position that is better than the best so far.
+     
       b2 = nullptr;
       delete b2;
     }
   }
   return alpha; 
+}
+
+int RoboPlayer::miniMax(Board *b, bool maxPlayer, int alpha, int beta, int depth){
+  if (depth <= 0){
+    return 0;
+  }
+  if (b->getNumMoves() == NUM_ROWS*NUM_COLS){
+    return 0; 
+  } 
+
+  if (maxPlayer){
+    for (int c = 0; c < NUM_COLS; c++){
+      if (b->validColumn(c) && b->isWinningMove(c)){
+        return (NUM_COLS*NUM_ROWS + 1 - b->getNumMoves())/2;
+      }
+    }
+
+    int score = -999;
+    
+    for (int c = 0; c < NUM_COLS; c++){
+      if(b->validColumn(c)){
+        Board* b2 = new Board;
+        *b2 = *b;
+        b2->addToken(c);
+        score = std::max(score, miniMax(b2, false, alpha, beta, depth - 1));
+        if (score >= beta)
+          break;
+        alpha = std::max(alpha, score);
+        b2 = nullptr;
+        delete b2;
+      }
+    }
+    return score; 
+  }
+
+  else{
+    for (int c = 0; c < NUM_COLS; c++){
+      if (b->validColumn(c) && b->isWinningMove(c)){
+        return -(NUM_COLS*NUM_ROWS + 1 - b->getNumMoves())/2;
+      }
+    }
+    int score = 999;
+    
+    for (int c = 0; c < NUM_COLS; c++){
+
+      if(b->validColumn(c)){
+        Board* b2 = new Board;
+        *b2 = *b;
+        b2->addToken(c);
+        score = std::min(score, miniMax(b2, true, alpha, beta, depth - 1));
+        if (score <= alpha)
+          break;
+        
+        beta = std::min(beta, score);
+        b2 = nullptr;
+        delete b2;
+      }
+    }
+    return score; 
+  }
 }

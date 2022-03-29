@@ -38,6 +38,8 @@ public:
 private: 
   int negaMax(Board *b);
   int negaMax(Board *b, int alpha, int beta);
+  int miniMax(Board *b, bool maxPlayer, int alpha, int beta, int depth);
+
 };
 
 #endif // PLAYER_INCLUDED

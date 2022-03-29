@@ -121,7 +121,8 @@ bool Board::validColumn(int col) {
 bool Board::isWinningMove(int col){
   Board b2 = *this;
   b2.addToken(col);
-  if (b2.getWinner() == 0) return 0;
+  if (b2.getWinner() == 0)
+    return 0;
   return 1;
 }
 
