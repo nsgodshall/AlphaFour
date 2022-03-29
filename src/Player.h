@@ -1,6 +1,8 @@
 #ifndef PLAYER_INCLUDED
 #define PLAYER_INCLUDED
 
+#include <cstdlib> // for std::rand()
+#include <ctime> // for random seed
 class Board;
 
 // Base player class
@@ -34,7 +36,7 @@ public:
   RoboPlayer();
   int getMove(Board* b);
 private: 
-  int negaMax(int depth, Board *b);
+  int negaMax(int depth, Board *b, int alpha, int beta);
 };
 
 #endif // PLAYER_INCLUDED
