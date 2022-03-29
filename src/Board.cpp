@@ -12,8 +12,6 @@ Board::Board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(0) {
 
   m_key_bm = m_position_bm + m_nonEmpty_bm + m_bottom_bm;
 
-  // DEBUGGING BELOW
-  // DEBUGGING ABOVE
 }
 
 void Board::displayHumanReadable() {

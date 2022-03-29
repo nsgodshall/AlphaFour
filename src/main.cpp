@@ -11,7 +11,7 @@ int main() {
   HumanPlayer hp;
   RoboPlayer rp;
 
-  Game g(&b, &rp, &hp);
+  Game g(&b, &hp, &rp);
 
   g.playGame();
 }

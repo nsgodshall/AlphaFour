@@ -36,6 +36,7 @@ public:
   RoboPlayer();
   int getMove(Board* b);
 private: 
+  int negaMax(Board *b);
   int negaMax(Board *b, int alpha, int beta);
 };
 
