@@ -120,6 +120,13 @@ bool Board::validColumn(int col) {
   return true;
 }
 
+bool Board::isWinningMove(int col){
+  Board b2 = *this;
+  b2.addToken(col);
+  if (b2.getWinner() == 0) return 0;
+  return 1;
+}
+
 uint64_t Board::getTop_bm(int col) {
   return (uint64_t(1) << bitmapDirectory(NUM_ROWS - 1, col));
 }

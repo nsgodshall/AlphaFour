@@ -40,55 +40,73 @@ int HumanPlayer::getMove(Board* b){
 RoboPlayer::RoboPlayer() : Player(false) {}
 
 int RoboPlayer::getMove(Board* b){
-  for (int d = 1; d < 2; d++){
-    auto start = std::chrono::high_resolution_clock::now();
-    
-    for (int c = 0; c < NUM_COLS; c++){
+  int maxCol = 0;
+  int maxScore = -999;
+  int d = 50;
+
+  auto start = std::chrono::high_resolution_clock::now(); // START DEBUG TIMER
+
+  // Iterate through each column
+  for (int c = 0; c < NUM_COLS; c++){
+    // ensure move is valid before attempt
+    if (b->validColumn(c)){ 
+      // Create new board that is a copy of current game state to test moves with
       Board* b2 = new Board();
       *b2 = *b;
+
       b2->addToken(c);
-      std::cout << "Col: " << c << ", score: " << negaMax(11, b2,   NUM_ROWS*NUM_COLS, -NUM_ROWS*NUM_COLS) << std::endl;
+
+      int score = -negaMax(b2, 999, -999);
+
+      if (score > maxScore) {
+          maxScore = score;
+          maxCol = c;
+      }
+      std::cout << "Col: " << c << ", score: " << score << " Is winning move: " << b->isWinningMove(c) <<std::endl;
       delete b2;
     }
-    auto stop = std::chrono::high_resolution_clock::now();
-
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << "DEPTH: " << 12 << " DURATION: " << duration.count() << " microseconds" << std::endl;
   }
-  return std::rand()%7;
+  std::cout << "I would play column " << maxCol << std::endl;
+
+  // END DEBUG TIMER, report time
+  auto stop = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+  std::cout << "DEPTH: " << d << " DURATION: " << duration.count() << " microseconds" << std::endl; 
+
+  return maxCol;
 }
 
-int RoboPlayer::negaMax(int depth, Board *b, int alpha, int beta){
-  // Depth, for debugging purposes
-  if (depth <= 0){
-    return -NUM_ROWS*NUM_COLS;
-  }
+int RoboPlayer::negaMax(Board *b, int alpha, int beta){
   // Check for a drawn game 
   if (b->getNumMoves() == NUM_ROWS*NUM_COLS)
     return 0; 
 
-  if (b->getWinner())
-    return (NUM_ROWS*NUM_COLS - b->getNumMoves()); 
-  
+  for (int c = 0; c < NUM_COLS; c++){
+    if (b->validColumn(c) && b->isWinningMove(c))
+      return (NUM_COLS*NUM_ROWS + 1 - b->getNumMoves())/2;
+  }
 
-  int max = -NUM_ROWS*NUM_COLS;
+  int max = (NUM_ROWS*NUM_COLS - 1 - b->getNumMoves())/2;
+
   if(beta > max) {
     beta = max;                     // there is no need to keep beta above our max possible score.
     if(alpha >= beta) return beta;  // prune the exploration if the [alpha;beta] window is empty.
   }
 
   for (int c = 0; c < NUM_COLS; c++){
-    Board* b2 = new Board();
-    *b2 = *b;
-  
-    b2->addToken(c);
-    int score = -negaMax(depth - 1, b2, alpha, beta);
+    if (b->validColumn(c)){
+      Board* b2 = new Board();
+      *b2 = *b;
+    
+      b2->addToken(c);
+      int score = -negaMax(b2, -alpha, -beta);
 
-    if(score >= beta) return score;  // prune the exploration if we find a possible move better than what we were looking for.
-    if(score > alpha) alpha = score; // reduce the [alpha;beta] window for next exploration, as we only 
-      // need to search for a position that is better than the best so far.
-    b2 = nullptr;
-    delete b2;
+      if(score >= beta) return score;  // prune the exploration if we find a possible move better than what we were looking for.
+      if(score > alpha) alpha = score; // reduce the [alpha;beta] window for next exploration, as we only 
+        // need to search for a position that is better than the best so far.
+      b2 = nullptr;
+      delete b2;
+    }
   }
   return alpha; 
 }

@@ -29,6 +29,7 @@ public:
   // returns true if a token can be placed in a column
   bool validColumn(int col);
   
+  bool isWinningMove(int col);
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current
                           // player's tokens

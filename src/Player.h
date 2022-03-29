@@ -36,7 +36,7 @@ public:
   RoboPlayer();
   int getMove(Board* b);
 private: 
-  int negaMax(int depth, Board *b, int alpha, int beta);
+  int negaMax(Board *b, int alpha, int beta);
 };
 
 #endif // PLAYER_INCLUDED
