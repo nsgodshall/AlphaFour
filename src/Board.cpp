@@ -11,7 +11,6 @@ Board::Board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(0) {
   }
 
   m_key_bm = m_position_bm + m_nonEmpty_bm + m_bottom_bm;
-
 }
 
 void Board::displayHumanReadable() {
@@ -72,7 +71,7 @@ bool Board::addToken(int col) {
 //   if (m_moves == 0)
 //     return false;
 
-//   visualizeBitmap(m_nonEmpty_bm);  
+//   visualizeBitmap(m_nonEmpty_bm);
 
 //   m_moves--;
 //   return true;
@@ -118,7 +117,7 @@ bool Board::validColumn(int col) {
   return true;
 }
 
-bool Board::isWinningMove(int col){
+bool Board::isWinningMove(int col) {
   Board b2 = *this;
   b2.addToken(col);
   if (b2.getWinner() == 0)

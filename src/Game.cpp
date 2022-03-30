@@ -16,7 +16,7 @@ void Game::playGame() {
     promptForMove(m_p1);
 
     // Check if player 1 played a winning move
-    if (m_b->getWinner()){
+    if (m_b->getWinner()) {
       m_b->displayHumanReadable();
       std::cout << "Congratulations, Player X!" << std::endl;
       break;
@@ -25,7 +25,7 @@ void Game::playGame() {
     // Get move from second player
     promptForMove(m_p2);
 
-    if (m_b->getWinner()){
+    if (m_b->getWinner()) {
       m_b->displayHumanReadable();
       std::cout << "Congratulations, Player O!" << std::endl;
       break;
@@ -33,9 +33,9 @@ void Game::playGame() {
   }
 }
 
-void Game::promptForMove(Player* p){
-  while(!m_b->addToken(p->getMove(m_b))){
-    if(m_b->addToken(p->getMove(m_b)))
+void Game::promptForMove(Player *p) {
+  while (!m_b->addToken(p->getMove(m_b))) {
+    if (m_b->addToken(p->getMove(m_b)))
       break;
   }
   return;

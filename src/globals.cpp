@@ -23,7 +23,7 @@ void playFromGameString(std::string *gs, Board *b, bool verbose) {
     // the specific char must be cast to a int literal
     int col = int(gs->at(i) - '0');
     b->addToken(col);
-    if (verbose){
+    if (verbose) {
       b->displayHumanReadable();
     }
     switch (b->getWinner()) {

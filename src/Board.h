@@ -10,7 +10,7 @@ public:
   // Places a token in the requested column for the specified player. Returns
   // false if requested move is invalid
   bool addToken(int col);
-  
+
   // Might not need this one
   // bool removeToken(int col);
 
@@ -28,8 +28,9 @@ public:
 
   // returns true if a token can be placed in a column
   bool validColumn(int col);
-  
+
   bool isWinningMove(int col);
+
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current
                           // player's tokens
