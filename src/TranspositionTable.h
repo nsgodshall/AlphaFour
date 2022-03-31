@@ -1,0 +1,9 @@
+#ifndef TRANSPOSITIONTABLE_DEFINED
+#define TRANSPOSITIONTABLE_DEFINED
+
+class TranspositionTable(){
+    
+};
+
+
+#endif // TRANSPOSITIONTABLE_DEFINED

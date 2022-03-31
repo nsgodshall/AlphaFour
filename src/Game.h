@@ -8,7 +8,6 @@ class Player;
 class Game {
 public:
   Game(Board *b, Player *p1, Player *p2);
-
   // begin the first move of the game and so on
   void playGame();
 

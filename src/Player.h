@@ -50,7 +50,7 @@ private:
   int miniMax(Board *b, bool maxPlayer, int depth);
 
   // Minimax algorithm with alpha-beta pruning
-  int miniMax(Board *b, bool maxPlayer, int depth, int alpha, int beta);
+  int miniMax(Board& b, bool maxPlayer, int depth, int alpha, int beta);
 
   std::array<int, 7> colOrder = {3, 2, 4, 1, 5, 0, 6};
 };
