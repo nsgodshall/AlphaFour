@@ -15,10 +15,10 @@ public:
   // bool removeToken(int col);
 
   // Print a human readable version of the Board
-  void displayHumanReadable();
+  void displayHumanReadable() const;
 
   // Return TRUE if it is the first player's turn
-  bool firstPlayerToMove();
+  bool firstPlayerToMove() const;
 
   // Return 0 if there is no winner, -1 if the first player won, 1 if the second
   // player won.
@@ -27,9 +27,9 @@ public:
   inline int getNumMoves() const { return m_moves; }
 
   // returns true if a token can be placed in a column
-  bool validColumn(int col);
+  bool validColumn(int col) const;
 
-  bool isWinningMove(int col);
+  bool isWinningMove(int col) const;
 
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current
@@ -45,13 +45,13 @@ private:
   // returns 1D index of gamestate bitmap given 2D coordinates (row 0, col 0)
   // identifies the bottom left location, returns -1 if an invalid coordinate is
   // given
-  int bitmapDirectory(int row, int col);
+  int bitmapDirectory(int row, int col) const;
 
   // return a bitmap with a 1 in the top row of the requested column
-  uint64_t getTop_bm(int col);
+  uint64_t getTop_bm(int col) const;
 
   // return a bitmap with the bottom avaliable cell in the requested column
-  uint64_t getBottom_bm(int col);
+  uint64_t getBottom_bm(int col) const;
 
   // mutate the state of the m_winner
   void checkIfWinner(uint64_t pos);

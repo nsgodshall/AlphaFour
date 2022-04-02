@@ -13,7 +13,7 @@ Board::Board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(0) {
   m_key_bm = m_position_bm + m_nonEmpty_bm + m_bottom_bm;
 }
 
-void Board::displayHumanReadable() {
+void Board::displayHumanReadable() const {
   int gridLoc(0);
   char gameToken, oppToken;
 
@@ -45,7 +45,7 @@ void Board::displayHumanReadable() {
   std::cout << " 1 2 3 4 5 6 7" << std::endl;
 }
 
-bool Board::firstPlayerToMove() {
+bool Board::firstPlayerToMove() const {
   if (m_moves % 2 == 1)
     return true;
   return false;
@@ -66,19 +66,7 @@ bool Board::addToken(int col) {
   return true;
 }
 
-// bool Board::removeToken(int col){
-//   // We can only remove a token if a token has been placed
-//   if (m_moves == 0)
-//     return false;
-
-//   visualizeBitmap(m_nonEmpty_bm);
-
-//   m_moves--;
-//   return true;
-
-// }
-
-int Board::bitmapDirectory(int row, int col) {
+int Board::bitmapDirectory(int row, int col) const {
   // ensure row index is valid
   if (row < 0 || row >= NUM_ROWS + 1)
     return -1;
@@ -92,7 +80,7 @@ int Board::bitmapDirectory(int row, int col) {
     return col * (NUM_ROWS + 1) + row;
 }
 
-bool Board::validColumn(int col) {
+bool Board::validColumn(int col) const {
   // make sure that the Board is not full
   if (m_moves >= NUM_ROWS * NUM_COLS)
     return false;
@@ -117,7 +105,7 @@ bool Board::validColumn(int col) {
   return true;
 }
 
-bool Board::isWinningMove(int col) {
+bool Board::isWinningMove(int col) const {
   Board b2 = *this;
   b2.addToken(col);
   if (b2.getWinner() == 0)
@@ -125,11 +113,11 @@ bool Board::isWinningMove(int col) {
   return 1;
 }
 
-uint64_t Board::getTop_bm(int col) {
+uint64_t Board::getTop_bm(int col) const {
   return (uint64_t(1) << bitmapDirectory(NUM_ROWS - 1, col));
 }
 
-uint64_t Board::getBottom_bm(int col) {
+uint64_t Board::getBottom_bm(int col) const {
   return (uint64_t(1) << bitmapDirectory(0, col));
 }
 
