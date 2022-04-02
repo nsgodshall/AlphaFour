@@ -46,37 +46,36 @@ int RoboPlayer::getMove(Board *b) {
   int maxScore = -999;
 
   auto start = std::chrono::high_resolution_clock::now(); // START DEBUG TIMER
+  
+    // Iterate through each column
+  for (int d = 0; d < 30; d++){
+    for (auto it = colOrder.begin(); it != colOrder.end(); it++) {
+      // ensure move is valid before attempt
+      if (b->validColumn(*it)) {
+        if (b->isWinningMove(*it))
+          return *it;
+        // Create new board that is a copy of current game state to test moves
+        // with
+        Board b2 = *b;
+        b2.addToken(*it);
 
-  // Iterate through each column
-  for (auto it = colOrder.begin(); it != colOrder.end(); it++) {
-    // ensure move is valid before attempt
-    if (b->validColumn(*it)) {
-      if (b->isWinningMove(*it))
-        return *it;
-      // Create new board that is a copy of current game state to test moves
-      // with
-      Board b2 = *b;
-      b2.addToken(*it);
+        int score = miniMax(b2, false, d, -999, 999);
+        if (score > maxScore) {
+          maxScore = score;
+          maxCol = *it;
+        }
 
-      int score = miniMax(b2, false, 25, -999, 999);
-      if (score > maxScore) {
-        maxScore = score;
-        maxCol = *it;
+        //std::cout << "Col: " << *it << ", score: " << score << std::endl;
       }
-
-      std::cout << "Col: " << *it << ", score: " << score << std::endl;
     }
-    // END DEBUG TIMER, report time
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration =
         std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    // std::cout << "DEPTH: " << d << ", DURATION: " << duration.count() << "
-    // microseconds"
+    // std::cout << "DEPTH: " << d << ", DURATION: " << duration.count() << " microseconds"
     //          << std::endl;
-    std::cout << duration.count() << std::endl;
+    std::cout << duration.count() << std::endl; 
   }
 
-  std::cout << "I would play column " << maxCol + 1 << std::endl;
 
   return maxCol;
 }
@@ -218,7 +217,7 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
 
         // recursively run minimax
         score = std::min(score, miniMax(b2, true, depth - 1, alpha, beta));
-
+        
         if (score <= alpha)
           break;
 

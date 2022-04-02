@@ -1,5 +1,5 @@
 CXX       := g++
-CXX_FLAGS := -std=c++17 -ggdb -fsanitize=leak
+CXX_FLAGS := -std=c++17 -ggdb
 
 BIN     := bin
 SRC     := src
