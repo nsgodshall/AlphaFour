@@ -30,6 +30,8 @@ public:
   bool validColumn(int col) const;
 
   bool isWinningMove(int col) const;
+  
+  inline uint64_t getKey() const { return m_key_bm; }
 
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current

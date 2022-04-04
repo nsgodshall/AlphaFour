@@ -4,6 +4,7 @@
 #include <array>
 #include <cstdlib> // for std::rand()
 #include <ctime>   // for random seed
+#include "TranspositionTable.h"
 
 class Board;
 
@@ -40,6 +41,7 @@ class RoboPlayer : public Player {
 public:
   RoboPlayer();
   int getMove(Board *b);
+  int getMoveTime(Board *b, unsigned int d);
 
 private:
   // Probably going to delete the two negaMax algorithms

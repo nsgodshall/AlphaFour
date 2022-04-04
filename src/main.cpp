@@ -15,8 +15,5 @@ int main() {
   // Game g(&b, &rp, &hp);
 
   // g.playGame();
-
-  TranspositionTable T(100);
-  uint64_t k(125213);
-  std::cout << T.getIndex(k) << std::endl;
+  benchmark();
 }
