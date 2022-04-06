@@ -2,9 +2,9 @@
 #define TRANSPOSITIONTABLE_DEFINED
 
 #include <vector>
-#include <functional>
-#include <cstring>
-#include <cassert>
+#include <cassert> 
+#include <cstring> // for memset
+#include <fstream> // for writing to file
 
 class TranspositionTable    {
 public: 
@@ -20,7 +20,14 @@ public:
 
     inline void reset() { memset(&T[0], 0, T.size()*sizeof(Entry)); }
 
+    void load();
+    void dump();
+
+    // Accessors
+    inline unsigned int size() { return m_size; }
 private:
+
+  unsigned long m_size;
 
     struct Entry {
       uint64_t key: 56;

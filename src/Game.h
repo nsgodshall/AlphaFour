@@ -1,6 +1,11 @@
 #ifndef GAME_INCLUDED
 #define GAME_INCLUDED
 
+
+#include <iostream>
+#include "Player.h"
+#include "Board.h"
+
 class Board;
 class Player;
 
@@ -15,6 +20,7 @@ private:
   Board *m_b;
   Player *m_p1, *m_p2;
 
+  // Prompt the user for a move until the return a valid column
   void promptForMove(Player *p);
 };
 

@@ -1,5 +1,4 @@
 #include "Board.h"
-#include "globals.h"
 
 Board::Board() : m_position_bm(0), m_nonEmpty_bm(0), m_moves(0), m_winner(0) {
   // initialize the bottom bitmap by changing the every spot in the bottom row
