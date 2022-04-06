@@ -1,7 +1,5 @@
 #include "Player.h"
 
-int NODES(0);
-
 Player::Player(bool interactive)
     : m_firstPlayer(false), m_isInteractive(interactive) {
   std::srand(std::time(nullptr));
@@ -56,7 +54,7 @@ int RoboPlayer::getMove(Board *b) {
         Board b2 = *b;
         b2.addToken(*it);
 
-        int score = miniMax(b2, false, 24, -999, 999);
+        int score = miniMax(b2, false, minDepth, -999, 999);
         if (score > maxScore) {
           maxScore = score;
           maxCol = *it;
@@ -75,7 +73,7 @@ int RoboPlayer::getMove(Board *b) {
   }
   std::cout << minDepth << std::endl;
   std::cout << t / 1000000.0 << std::endl;
-  std::cout << NODES << std::endl;
+  T.dump();
   return maxCol;
 }
 
@@ -178,8 +176,8 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
     // Initilize score to negative infinity
     int score = -999;
     if (int val = T.get(b.getKey())) {
-      score = val;
-      if (score > val)
+      score = val + Board::MIN_SCORE - 1;
+      if (score >= beta)
         return score;
     }
 
@@ -199,7 +197,7 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
         alpha = std::max(alpha, score);
       }
     }
-    T.put(b.getKey(), score);
+    T.put(b.getKey(), alpha - Board::MIN_SCORE + 1);
     return score;
   }
 
@@ -215,7 +213,7 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
     // initialize score of minimizing player to positive infinty
     int score = 999;
     if (int val = T.get(b.getKey())) {
-      score = val;
+      score = -(val + Board::MIN_SCORE - 1);
       if (score <= alpha)
         return score;
     }
@@ -236,7 +234,8 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
         beta = std::min(beta, score);
       }
     }
-    T.put(b.getKey(), alpha);
+    T.put(b.getKey(), alpha - Board::MIN_SCORE + 1);
+
     return score;
   }
 }

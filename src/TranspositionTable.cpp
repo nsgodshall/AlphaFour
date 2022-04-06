@@ -1,5 +1,6 @@
 #include "TranspositionTable.h"
 
+#include <iostream>
 TranspositionTable::TranspositionTable(unsigned int size) : T(size) {
   assert(T.size() > 0);
   m_size = size;

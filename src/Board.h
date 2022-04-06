@@ -41,6 +41,9 @@ public:
   // false if requested move is invalid
   bool addToken(int col);
 
+  // CONSTANTS
+  static const int MIN_SCORE = -(7*6)/2 + 3;
+
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current
                           // player's tokens
