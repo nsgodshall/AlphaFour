@@ -31,7 +31,7 @@ public:
 
   bool isWinningMove(int col) const;
   
-  inline uint64_t getKey() const { return m_key_bm; }
+  inline uint64_t getKey() const { return m_position_bm + m_nonEmpty_bm + m_bottom_bm; }
 
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current

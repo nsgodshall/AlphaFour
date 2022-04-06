@@ -53,8 +53,9 @@ private:
 
   // Minimax algorithm with alpha-beta pruning
   int miniMax(Board &b, bool maxPlayer, int depth, int alpha, int beta);
-
+  int minDepth = 14;
   std::array<int, 7> colOrder = {3, 2, 4, 1, 5, 0, 6};
+  TranspositionTable T;
 };
 
 #endif // PLAYER_INCLUDED

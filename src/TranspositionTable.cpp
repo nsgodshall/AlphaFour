@@ -1,12 +1,13 @@
 #include "TranspositionTable.h"
 
+#include <iostream>
+
 TranspositionTable::TranspositionTable(unsigned int size): T(size) {
     assert(T.size() > 0);
 }
 
 void TranspositionTable::put(uint64_t key, uint8_t val){
     unsigned int i = getIndex(key);
-
     T[i].key = key;
     T[i].val = val;
     return;

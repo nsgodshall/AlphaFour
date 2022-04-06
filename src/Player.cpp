@@ -1,9 +1,10 @@
-#include "Player.h"
+ #include "Player.h"
 #include "Board.h"
 #include "globals.h"
 
 // FOR DEBUGGING
 #include <chrono> 
+int NODES(0);
 
 Player::Player(bool interactive)
     : m_firstPlayer(false), m_isInteractive(interactive) {
@@ -39,39 +40,48 @@ int HumanPlayer::getMove(Board *b) {
 // ROBOT PLAYER IMPLEMENTATIONS
 
 // Constructor
-RoboPlayer::RoboPlayer() : Player(false) 
-{
-  TranspositionTable T(10000);
-}
+RoboPlayer::RoboPlayer() : Player(false), T(10000) {;}
 
 int RoboPlayer::getMove(Board *b) {
   int maxCol = 0;
   int maxScore = -999;
-
+  long int t = 0;
+  auto start = std::chrono::high_resolution_clock::now(); // START DEBUG TIMER
 
   // Iterate through each column
-  for (auto it = colOrder.begin(); it != colOrder.end(); it++) {
-    // ensure move is valid before attempt
-    if (b->validColumn(*it)) {
-      if (b->isWinningMove(*it))
-        return *it;
-      // Create new board that is a copy of current game state to test moves
-      // with
-      Board b2 = *b;
-      b2.addToken(*it);
+  while (t < 1000000){
+    for (auto it = colOrder.begin(); it != colOrder.end(); it++) {
+      // ensure move is valid before attempt
+      if (b->validColumn(*it)) {
+        if (b->isWinningMove(*it))
+          return *it;
+        // Create new board that is a copy of current game state to test moves
+        // with
+        Board b2 = *b;
+        b2.addToken(*it);
 
-      int score = miniMax(b2, false, 14, -999, 999);
-      if (score > maxScore) {
-        maxScore = score;
-        maxCol = *it;
+        int score = miniMax(b2, false, minDepth, -999, 999);
+        if (score > maxScore) {
+          maxScore = score;
+          maxCol = *it;
+        }
+
+        // std::cout << "Col: " << *it << ", score: " << score << std::endl;
       }
-
-      std::cout << "Col: " << *it << ", score: " << score << std::endl;
     }
+    if (minDepth == NUM_ROWS*NUM_COLS)
+      break;
+    minDepth++;
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    t = duration.count();
   }
-
+  std::cout << minDepth << std::endl;
+  std::cout << t / 1000000.0 << std::endl;
+  std::cout << NODES << std::endl;
   return maxCol;
 }
+
 
 int RoboPlayer::getMoveTime(Board *b, unsigned int d) {
   int maxCol = 0;
@@ -177,15 +187,10 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
                         int beta) {
   // Base case, hopefully this can be removed once optimized, or it can be used
   // as a proxy for difficulty
+  NODES++;
   if (depth <= 0) {
     return 0;
   }
-
-  // uint64_t T_key = T.getKey(b.getKey());
-
-
-  // This is bad and should be optimized
-
 
   // Draw game
   if (b.getNumMoves() == NUM_ROWS * NUM_COLS) {
@@ -194,19 +199,21 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
 
   // Maximizing player
   if (maxPlayer) {
-    // Check if maximizing player has a winning move
-    // if (T.get(T_key) != 0){
-    //   alpha = T.get(T_key);
-    // }
-    // else {
-      for (auto it = colOrder.begin(); it != colOrder.end(); it++) {
-        if (b.validColumn(*it) && b.isWinningMove(*it)) {
-          return (NUM_COLS * NUM_ROWS + 1 - b.getNumMoves()) / 2;
-        }
+    //Check if maximizing player has a winning move
+    for (auto it = colOrder.begin(); it != colOrder.end(); it++) {
+      if (b.validColumn(*it) && b.isWinningMove(*it)) {
+        return (NUM_COLS * NUM_ROWS + 1 - b.getNumMoves()) / 2;
       }
+    }
 
     // Initilize score to negative infinity
     int score = -999;
+    if (int val = T.get(b.getKey())){
+      score = val;
+      if (score > val)
+        return score;
+    }
+
 
     for (auto it = colOrder.begin(); it != colOrder.end(); it++) {
       if (b.validColumn(*it)) {
@@ -224,6 +231,7 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
         alpha = std::max(alpha, score);
       }
     }
+    T.put(b.getKey(), score);
     return score;
   }
 
@@ -238,6 +246,11 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
 
     // initialize score of minimizing player to positive infinty
     int score = 999;
+    if (int val = T.get(b.getKey())){
+      score = val;
+      if (score <= alpha)
+        return score;
+    }
 
     for (auto it = colOrder.begin(); it != colOrder.end(); it++) {
 
@@ -255,6 +268,7 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
         beta = std::min(beta, score);
       }
     }
+    T.put(b.getKey(), alpha);
     return score;
   }
 }
