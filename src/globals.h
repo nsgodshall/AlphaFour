@@ -1,11 +1,11 @@
 #ifndef GLOBALS_INCLUDED
 #define GLOBALS_INCLUDED
 
-#include <iostream>
-#include <string>
-#include <chrono>
 #include "Board.h"
 #include "Player.h"
+#include <chrono>
+#include <iostream>
+#include <string>
 
 // EXPERIMENTAL
 #include <unistd.h> // for linux

@@ -1,10 +1,9 @@
 #ifndef GAME_INCLUDED
 #define GAME_INCLUDED
 
-
-#include <iostream>
-#include "Player.h"
 #include "Board.h"
+#include "Player.h"
+#include <iostream>
 
 class Board;
 class Player;

@@ -1,9 +1,8 @@
 #ifndef BOARD_INCLUDED
 #define BOARD_INCLUDED
 
-#include <stdint.h> // for declaring uint64_t
 #include "globals.h"
-
+#include <stdint.h> // for declaring uint64_t
 
 class Board {
 public:
@@ -16,21 +15,23 @@ public:
   // player won.
   inline int getWinner() const { return m_winner; }
 
-  // return the total number of combined moves that have been played 
+  // return the total number of combined moves that have been played
   inline int getNumMoves() const { return m_moves; }
 
   // Return TRUE if it is the first player's turn
   bool firstPlayerToMove() const;
 
   // Return the bitmask key
-  inline uint64_t getKey() const { return m_position_bm + m_nonEmpty_bm + m_bottom_bm; }
+  inline uint64_t getKey() const {
+    return m_position_bm + m_nonEmpty_bm + m_bottom_bm;
+  }
 
   //// UTILITIES
 
   // returns true if a token can be placed in a column
   bool validColumn(int col) const;
 
-  // Determine whether placing a token in a given column would end the game 
+  // Determine whether placing a token in a given column would end the game
   bool isWinningMove(int col) const;
 
   // Print a human readable version of the Board
@@ -39,7 +40,6 @@ public:
   // Places a token in the requested column for the specified player. Returns
   // false if requested move is invalid
   bool addToken(int col);
-
 
 private:
   uint64_t m_position_bm; // 64-bit variable storing location of the current

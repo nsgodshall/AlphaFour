@@ -44,19 +44,20 @@ void playFromGameString(std::string *gs, Board *b, bool verbose) {
 
 bool getBit(uint64_t bm, int n) { return ((bm >> n) & 1); }
 
-void benchmark(){
+void benchmark() {
   Board b;
   RoboPlayer rp1;
   auto start = std::chrono::high_resolution_clock::now(); // START DEBUG TIMER
-  for (int d = 0; d < NUM_COLS*NUM_ROWS; d++){
+  for (int d = 0; d < NUM_COLS * NUM_ROWS; d++) {
     rp1.getMoveTime(&b, d);
     auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << "DEPTH: " << d << ", DURATION: " << duration.count()/ 1000000.0 << " seconds"
-           << std::endl;
-    if (duration.count() > 10000000){
+    auto duration =
+        std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    std::cout << "DEPTH: " << d
+              << ", DURATION: " << duration.count() / 1000000.0 << " seconds"
+              << std::endl;
+    if (duration.count() > 10000000) {
       break;
     }
   }
-
 }

@@ -1,8 +1,8 @@
 #include "Board.h"
 #include "Game.h"
 #include "Player.h"
-#include "globals.h"
 #include "TranspositionTable.h"
+#include "globals.h"
 
 int main() {
   RoboPlayer rp;
@@ -12,5 +12,5 @@ int main() {
   Game g(&b, &rp, &hp);
 
   g.playGame();
-  // benchmark();  
+  // benchmark();
 }

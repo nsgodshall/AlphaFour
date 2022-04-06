@@ -1,8 +1,8 @@
 #ifndef PLAYER_INCLUDED
 #define PLAYER_INCLUDED
 
-#include "TranspositionTable.h"
 #include "Board.h"
+#include "TranspositionTable.h"
 
 #include <array> // For column exploration order array
 
@@ -55,10 +55,12 @@ private:
   int miniMax(Board &b, bool maxPlayer, int depth, int alpha, int beta);
   int minDepth = 14;
 
-  // Array that dictates the move order that moves are explored (starting with col 3, ending with col 6)
+  // Array that dictates the move order that moves are explored (starting with
+  // col 3, ending with col 6)
   std::array<int, 7> colOrder = {3, 2, 4, 1, 5, 0, 6};
 
-  // Declare variable for transposition table that will be used to store values for certain game sgtate
+  // Declare variable for transposition table that will be used to store values
+  // for certain game sgtate
   TranspositionTable T;
 };
 
