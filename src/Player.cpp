@@ -36,119 +36,63 @@ int HumanPlayer::getMove(Board *b) {
 // Constructor
 RoboPlayer::RoboPlayer() : Player(false), T(1000000) { T.load(); }
 
-int RoboPlayer::getMove(Board *b) {
-  int maxCol = 0;
+int RoboPlayer::getMove(Board *b){
   int maxScore = -999;
-  long int t = 0;
-  auto start = std::chrono::high_resolution_clock::now(); // START DEBUG TIMER
+  int maxCol = 0;
+  int depth(minDepth);
 
-  // Iterate through each column
-  while (t < 1000000) {
-    for (auto it = colOrder.begin(); it != colOrder.end(); it++) {
-      // ensure move is valid before attempt
-      if (b->validColumn(*it)) {
+  Clock c; 
+  c.start();
+  while (1){
+    for (auto it = colOrder.begin(); it != colOrder.end(); it++){
+      Board b2 = *b;
+      if (b->validColumn(*it)){
         if (b->isWinningMove(*it))
           return *it;
-        // Create new board that is a copy of current game state to test moves
-        // with
-        Board b2 = *b;
         b2.addToken(*it);
 
-        int score = miniMax(b2, false, minDepth, -999, 999);
-        if (score > maxScore) {
+        // int score = solve(b2, depth);
+        int score = solve(b2, minDepth);
+        std::cout << *it + 1 << ", " << score << std::endl;
+        if (score > maxScore){
           maxScore = score;
           maxCol = *it;
         }
-
-        std::cout << "Col: " << *it << ", score: " << score << std::endl;
       }
     }
-    if (minDepth == NUM_ROWS * NUM_COLS)
-      break;
-    minDepth++;
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration =
-        std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    t = duration.count();
+    if (c.timeNow() > CUTOFF_TIME || depth > 41) break;
+    depth++;
   }
+  minDepth = depth;
   std::cout << minDepth << std::endl;
-  std::cout << t / 1000000.0 << std::endl;
-  T.dump();
+  if (maxScore > 0){
+    std::cout << "I will win" << std::endl;
+  }
+  if (maxScore < 0){
+    std::cout << "I will lose" << std::endl;
+  }
   return maxCol;
 }
 
-int RoboPlayer::getMoveTime(Board *b, unsigned int d) { return getMove(b); }
+int RoboPlayer::solve(Board &b, int d){
 
-int RoboPlayer::miniMax(Board *b, bool maxPlayer, int depth) {
-  // Base case, hopefully this can be removed once optimized, or it can be used
-  // as a proxy for difficulty
-  if (depth <= 0) {
-    return 0;
+  int min = -(NUM_COLS*NUM_ROWS - b.getNumMoves())/2;
+  int max = (NUM_COLS*NUM_ROWS+1 - b.getNumMoves())/2;
+
+  while (min < max){
+    int med = min + (max - min)/2;
+    if (med <= 0 && min/2 < med)
+      med = min/2;
+    else if (med >= 0 && max/2 > med) 
+      med = max/2;
+    int r = miniMax(b, false, d, med, med + 1);
+    if (r <= med)
+      max = r;
+    else 
+      min = r;  
   }
+  return min;
 
-  // Draw game
-  if (b->getNumMoves() == NUM_ROWS * NUM_COLS) {
-    return 0;
-  }
-
-  // Maximizing player
-  if (maxPlayer) {
-    // Check if maximizing player has a winning move
-    for (int c = 0; c < NUM_COLS; c++) {
-      if (b->validColumn(c) && b->isWinningMove(c)) {
-        return (NUM_COLS * NUM_ROWS + 1 - b->getNumMoves()) / 2;
-      }
-    }
-
-    // Initilize score to negative infinity
-    int score = -999;
-
-    for (int c = 0; c < NUM_COLS; c++) {
-      if (b->validColumn(c)) {
-        // Create a duplicate of current game state to add a test move to
-        Board *b2 = new Board;
-        *b2 = *b;
-        b2->addToken(c);
-
-        // recursively run minimax
-        score = std::max(score, miniMax(b2, false, depth - 1));
-
-        b2 = nullptr;
-        delete b2;
-      }
-    }
-    return score;
-  }
-
-  // Minimizing player implementations
-  else {
-    // See if the minimizing player has a winning move
-    for (int c = 0; c < NUM_COLS; c++) {
-      if (b->validColumn(c) && b->isWinningMove(c)) {
-        return -(NUM_COLS * NUM_ROWS + 1 - b->getNumMoves()) / 2;
-      }
-    }
-
-    // initialize score of minimizing player to positive infinty
-    int score = 999;
-
-    for (int c = 0; c < NUM_COLS; c++) {
-
-      if (b->validColumn(c)) {
-        // Create dupliate board and add test move
-        Board *b2 = new Board;
-        *b2 = *b;
-        b2->addToken(c);
-
-        // recursively run minimax
-        score = std::min(score, miniMax(b2, true, depth - 1));
-
-        b2 = nullptr;
-        delete b2;
-      }
-    }
-    return score;
-  }
 }
 
 int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
@@ -213,7 +157,7 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
     // initialize score of minimizing player to positive infinty
     int score = 999;
     if (int val = T.get(b.getKey())) {
-      score = -(val + Board::MIN_SCORE - 1);
+        score = -(val + Board::MIN_SCORE - 1);
       if (score <= alpha)
         return score;
     }

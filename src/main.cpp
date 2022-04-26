@@ -8,7 +8,6 @@ int main() {
   RoboPlayer rp;
   HumanPlayer hp;
   Board b;
-
   Game g(&b, &rp, &hp);
 
   g.playGame();

@@ -2,6 +2,7 @@
 #define PLAYER_INCLUDED
 
 #include "Board.h"
+#include "Clock.h"
 #include "TranspositionTable.h"
 
 #include <array> // For column exploration order array
@@ -53,7 +54,10 @@ private:
 
   // Minimax algorithm with alpha-beta pruning
   int miniMax(Board &b, bool maxPlayer, int depth, int alpha, int beta);
-  int minDepth = 14;
+  int minDepth = 20;
+  const int CUTOFF_TIME = 1000000*1; // make time per move in microseconds 
+
+  int solve(Board &b, int depth);
 
   // Array that dictates the move order that moves are explored (starting with
   // col 3, ending with col 6)

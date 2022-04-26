@@ -3,7 +3,6 @@
 
 #include "Board.h"
 #include "Player.h"
-#include <chrono>
 #include <iostream>
 #include <string>
 
@@ -22,6 +21,4 @@ void visualizeBitmap(uint64_t bm);
 void playFromGameString(std::string *gs, Board *b, bool verbose);
 
 bool getBit(uint64_t bm, int n);
-
-void benchmark();
 #endif // GLOBALS_INCLUDED
