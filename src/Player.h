@@ -54,7 +54,7 @@ private:
 
   // Minimax algorithm with alpha-beta pruning
   int miniMax(Board &b, bool maxPlayer, int depth, int alpha, int beta);
-  int minDepth = 20;
+  int minDepth = 14;
   const int CUTOFF_TIME = 1000000*1; // make time per move in microseconds 
 
   int solve(Board &b, int depth);
@@ -68,4 +68,4 @@ private:
   TranspositionTable T;
 };
 
-#endif // PLAYER_INCLUDED
+#endif // PLAYER_INCLUDED7

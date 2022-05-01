@@ -27,7 +27,7 @@ void playFromGameString(std::string *gs, Board *b, bool verbose) {
     }
     switch (b->getWinner()) {
     case 0:
-      std::cout << "There is no winner" << std::endl;
+      // std::cout << "There is no winner" << std::endl;
       break;
     case -1:
       std::cout << "Player X has won" << std::endl;

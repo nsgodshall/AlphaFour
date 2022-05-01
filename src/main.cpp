@@ -10,6 +10,8 @@ int main() {
   Board b;
   Game g(&b, &rp, &hp);
 
+  std::string gs = "333335";
+  playFromGameString(&gs, &b, false);
   g.playGame();
   // benchmark();
 }

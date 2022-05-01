@@ -34,7 +34,7 @@ int HumanPlayer::getMove(Board *b) {
 // ROBOT PLAYER IMPLEMENTATIONS
 
 // Constructor
-RoboPlayer::RoboPlayer() : Player(false), T(1000000) { T.load(); }
+RoboPlayer::RoboPlayer() : Player(false), T(99999) { T.load(); }
 
 int RoboPlayer::getMove(Board *b){
   int maxScore = -999;
@@ -51,9 +51,9 @@ int RoboPlayer::getMove(Board *b){
           return *it;
         b2.addToken(*it);
 
-        // int score = solve(b2, depth);
-        int score = solve(b2, minDepth);
-        std::cout << *it + 1 << ", " << score << std::endl;
+        // int score = solve(b2, minDepth);
+        int score = miniMax(b2, false, depth, -999, 999);
+        // std::cout << *it + 1 << ", " << score << std::endl;
         if (score > maxScore){
           maxScore = score;
           maxCol = *it;
@@ -64,7 +64,8 @@ int RoboPlayer::getMove(Board *b){
     depth++;
   }
   minDepth = depth;
-  std::cout << minDepth << std::endl;
+  // std::cout << minDepth << std::endl;
+  // std::cout << c.timeNow()/1000000.0 << std::endl;
   if (maxScore > 0){
     std::cout << "I will win" << std::endl;
   }
@@ -178,7 +179,7 @@ int RoboPlayer::miniMax(Board &b, bool maxPlayer, int depth, int alpha,
         beta = std::min(beta, score);
       }
     }
-    T.put(b.getKey(), alpha - Board::MIN_SCORE + 1);
+    T.put(b.getKey(), score);
 
     return score;
   }
