@@ -13,9 +13,9 @@ void Player::setAsFirstPlayer() {
 // HUMAN PLAYER IMPLEMENTAITONS
 
 // Constructor
-HumanPlayer::HumanPlayer() : Player(true) {}
+CLI_Player::CLI_Player() : Player(true) {}
 
-int HumanPlayer::getMove(Board *b) {
+int CLI_Player::getMove(Board *b) {
   int col(0);
   b->displayHumanReadable();
   if (isFirstPlayer())
@@ -31,6 +31,19 @@ int HumanPlayer::getMove(Board *b) {
   }
   return col - 1;
 }
+
+// HUMAN PLAYER IMPLEMENTATIONS
+
+HumanPlayer::HumanPlayer() : Player(true) {}
+
+int HumanPlayer::getMove(Board* b){
+  int col(0);
+  std::cin >> col;
+  return col;
+}
+
+
+
 // ROBOT PLAYER IMPLEMENTATIONS
 
 // Constructor
@@ -65,13 +78,13 @@ int RoboPlayer::getMove(Board *b){
   }
   minDepth = depth;
   // std::cout << minDepth << std::endl;
-  // std::cout << c.timeNow()/1000000.0 << std::endl;
-  if (maxScore > 0){
-    std::cout << "I will win" << std::endl;
-  }
-  if (maxScore < 0){
-    std::cout << "I will lose" << std::endl;
-  }
+  // // std::cout << c.timeNow()/1000000.0 << std::endl;
+  // if (maxScore > 0){
+  //   std::cout << "I will win" << std::endl;
+  // }
+  // if (maxScore < 0){
+  //   std::cout << "I will lose" << std::endl;
+  // }
   return maxCol;
 }
 

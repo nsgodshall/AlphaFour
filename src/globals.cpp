@@ -30,13 +30,10 @@ void playFromGameString(std::string *gs, Board *b, bool verbose) {
       // std::cout << "There is no winner" << std::endl;
       break;
     case -1:
-      std::cout << "Player X has won" << std::endl;
       break;
     case 1:
-      std::cout << "Player O has won" << std::endl;
       break;
     }
-    std::cout << std::endl;
   }
 
   return;

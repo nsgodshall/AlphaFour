@@ -4,14 +4,14 @@
 #include "TranspositionTable.h"
 #include "globals.h"
 
-int main() {
+int main(int argc, char** argv) {
   RoboPlayer rp;
   HumanPlayer hp;
   Board b;
-  Game g(&b, &rp, &hp);
+  std::string gs = argv[1];
+  // std::cout << gs;
 
-  std::string gs = "333335";
   playFromGameString(&gs, &b, false);
-  g.playGame();
-  // benchmark();
+  // b.displayHumanReadable();
+  std::cout << rp.getMove(&b);
 }

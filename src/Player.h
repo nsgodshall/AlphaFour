@@ -10,7 +10,7 @@
 class Board;
 
 // Base player class
-class Player {
+class Player  {
 public:
   // Variable to store whether a given player object is the first to play
   bool m_firstPlayer;
@@ -31,7 +31,13 @@ private:
 };
 
 // Class for a player whos moves are dictated by human input
-class HumanPlayer : public Player {
+class CLI_Player : public Player {
+public:
+  CLI_Player();
+  int getMove(Board *b);
+};
+
+class HumanPlayer : public Player { 
 public:
   HumanPlayer();
   int getMove(Board *b);

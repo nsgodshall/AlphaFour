@@ -18,9 +18,10 @@ public:
 private:
   Board *m_b;
   Player *m_p1, *m_p2;
+  bool m_pyInterface;
 
   // Prompt the user for a move until the return a valid column
-  void promptForMove(Player *p);
+  int promptForMove(Player *p);
 };
 
 #endif // GAME_INCLUDED
