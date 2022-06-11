@@ -8,10 +8,11 @@ int main(int argc, char** argv) {
   RoboPlayer rp;
   HumanPlayer hp;
   Board b;
-  std::string gs = argv[1];
   // std::cout << gs;
+  // std::cout << "Computing...";
+  // rp.preCompute(&b);
 
   playFromGameString(&gs, &b, false);
   // b.displayHumanReadable();
-  std::cout << rp.getMove(&b);
+  // std::cout << rp.getMove(&b);
 }

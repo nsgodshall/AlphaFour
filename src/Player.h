@@ -5,6 +5,7 @@
 #include "Clock.h"
 #include "TranspositionTable.h"
 
+#include <math.h>
 #include <array> // For column exploration order array
 
 class Board;
@@ -49,6 +50,7 @@ public:
   RoboPlayer();
   int getMove(Board *b);
   int getMoveTime(Board *b, unsigned int d);
+  void preCompute(Board *b);
 
 private:
   // Probably going to delete the two negaMax algorithms

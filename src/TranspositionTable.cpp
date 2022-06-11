@@ -24,6 +24,7 @@ void TranspositionTable::load() { ; }
 
 void TranspositionTable::dump() {
   std::ofstream ofile("dump.csv");
+  std::cout << "Saving file...\n";
   for (int i = 0; i < size(); i++) {
     ofile << T.at(i).key << ", " << uint64_t(T.at(i).val) << std::endl;
   }

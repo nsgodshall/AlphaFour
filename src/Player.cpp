@@ -47,7 +47,7 @@ int HumanPlayer::getMove(Board* b){
 // ROBOT PLAYER IMPLEMENTATIONS
 
 // Constructor
-RoboPlayer::RoboPlayer() : Player(false), T(99999) { T.load(); }
+RoboPlayer::RoboPlayer() : Player(false), T(pow(2,20)) { T.load(); }
 
 int RoboPlayer::getMove(Board *b){
   int maxScore = -999;
@@ -86,6 +86,27 @@ int RoboPlayer::getMove(Board *b){
   //   std::cout << "I will lose" << std::endl;
   // }
   return maxCol;
+}
+
+void RoboPlayer::preCompute(Board *b){
+  int maxScore = -999;
+  int maxCol = 3;
+
+  for (auto it = colOrder.begin(); it != colOrder.end(); it++){
+    Board b2 = *b;
+    if (b->validColumn(*it)){
+      b2.addToken(*it);
+      // int score = solve(b2, minDepth);
+      int score = miniMax(b2, false, 25, -999, 999);
+      // std::cout << *it + 1 << ", " << score << std::endl;
+      if (score > maxScore){
+        maxScore = score;
+        maxCol = *it;
+      }
+    } 
+  }
+  T.dump();
+  return;
 }
 
 int RoboPlayer::solve(Board &b, int d){
